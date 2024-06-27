@@ -1,0 +1,68 @@
+.admin-page-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .admin-section {
+    margin-bottom: 20px;
+  }
+  
+  .admin-section h3 {
+    margin: 0 0 10px;
+  }
+  
+  .admin-section input {
+    display: block;
+    margin: 5px 0;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  .admin-section button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .admin-section button:hover {
+    background-color: #0056b3;
+  }
+  
+  .admin-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-section th, .admin-section td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .admin-section th {
+    background-color: #f8f9fa;
+  }
+  
+  .admin-section tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .admin-list-item button {
+    margin-left: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-section input {
+      max-width: none;
+    }
+  }
+  

@@ -1,0 +1,52 @@
+.summary-participations-container {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.summary-participations-table th,
+.summary-participations-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.summary-participations-table th {
+  background-color: #125875;
+  color: #fff;
+}
+
+.summary-participations-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.summary-participations-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.summary-participations-table tbody tr td a {
+  color: #1eb2a6;
+  text-decoration: none;
+}
+
+.summary-participations-table tbody tr td a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .summary-participations-table {
+    width: 100%;
+    /* Make the table full width on smaller screens */
+  }
+
+  .summary-participations-table th,
+  .summary-participations-table td {
+    padding: 8px 10px;
+    /* Reduce padding for better fit on small screens */
+  }
+
+  .summary-participations-container {
+    overflow-x: auto;
+    /* Enable horizontal scrolling if needed */
+  }
+}

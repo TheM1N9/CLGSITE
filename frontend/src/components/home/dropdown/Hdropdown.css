@@ -1,0 +1,110 @@
+.faq {
+  flex: 1;
+  /* Allow flexibility */
+  padding-inline: 230px;
+}
+
+.faq h2 {
+  font-size: 50px;
+  /* Adjust font size */
+  font-weight: 600;
+  padding: 20px;
+  /* Adjust margin */
+  text-align: center;
+  color: #ff7350;
+}
+
+/* .faq p {
+    font-size: 24px;
+    margin-bottom: 25px;
+    line-height: 34px;
+  } */
+
+.faq details {
+  margin-bottom: 20px;
+  border: 1px solid #ff7350;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.faq details summary {
+  font-size: 18px;
+  /* Adjust font size */
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.faq details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] summary {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0.5em;
+}
+
+details[open] div {
+  padding: 0.5em 1em;
+}
+
+.faq details div {
+  margin-top: 10px;
+  /* Add space between summary and content */
+}
+
+.faq details p {
+  font-size: 14px;
+  /* Adjust font size */
+  padding: 0;
+}
+
+/* ProgramOutcomes.css */
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers th,
+#customers td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+  background-color: #ddd;
+}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.alt {
+  background-color: #f2f2f2;
+}
+
+.center {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .faq {
+    flex: 1 1;
+    padding-inline: 10px;
+  }
+
+  .faq h2 {
+    font-size: 35px;
+    font-weight: 600;
+    padding: 25px;
+    text-align: center;
+  }
+}

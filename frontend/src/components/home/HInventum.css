@@ -1,0 +1,59 @@
+.inventum {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-block: 50px;
+  /* margin-bottom: 120px; */
+  background-color: #125875;
+  justify-content: center;
+  gap: 90px;
+}
+
+.inventum123 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inventum img {
+  border-radius: 10px;
+  width: 200px;
+  height: auto;
+  border: 5px solid #ff7350;
+  transition: all 0.3s ease;
+}
+
+.inventum h2 {
+  font-size: 50px;
+  color: #ff7350;
+  margin-bottom: 40px;
+}
+
+.inventum hr {
+  height: 400px;
+  /* width: 5px;
+    border: none;
+    color: #545454; */
+}
+
+.inventum img:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 768px) {
+
+
+  .inventum {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-block: 50px;
+    /* margin-bottom: 120px; */
+    background-color: #125875;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+
+}

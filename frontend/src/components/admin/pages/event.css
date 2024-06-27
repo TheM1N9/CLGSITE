@@ -1,0 +1,124 @@
+/* src/App.css */
+
+
+.App {
+  text-align: center;
+  padding: 20px;
+
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20vh;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.form-container input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.form-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #218838;
+}
+
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.event-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.event-item img {
+  width: 100%;
+  height: auto;
+}
+
+.event-details {
+  padding: 15px;
+}
+
+.event-details h3 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.event-details p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.event-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.event-details a:hover {
+  text-decoration: underline;
+}
+
+.event-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.event-buttons button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event-buttons button:first-child {
+  background-color: #ffc107;
+  color: white;
+}
+
+.event-buttons button:first-child:hover {
+  background-color: #e0a800;
+}
+
+.event-buttons button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.event-buttons button:last-child:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    flex-direction: column;
+  }
+
+  .form-container input {
+    width: calc(100% - 20px);
+  }
+}

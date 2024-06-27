@@ -1,0 +1,78 @@
+/* teachingfaculty.css */
+.form-container {
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form-container input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.form-container button {
+  padding: 10px 20px;
+  background-color: #125875;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+.faculty-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.faculty-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.faculty-item img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.faculty-details {
+  flex: 1;
+}
+
+.faculty-details h3 {
+  margin: 0 0 10px;
+}
+
+.faculty-details p {
+  margin: 0 0 5px;
+}
+
+.faculty-buttons button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #125875;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.faculty-buttons button:hover {
+  background-color: #0056b3;
+}

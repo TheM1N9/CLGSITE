@@ -1,0 +1,154 @@
+.price .items {
+  padding: 40px;
+  text-align: center;
+}
+
+.price h1 {
+  font-size: 50px;
+  margin: 20px 0;
+  color: #125875;
+}
+
+.price h1 span {
+  font-size: 20px;
+  margin-right: 5px;
+  color: #000;
+}
+
+.price p {
+  color: grey;
+  margin: 40px 0;
+}
+
+/*--------------faq-------------*/
+.faq .container {
+  max-width: 70%;
+  border-radius: 5px;
+}
+
+.faq .box {
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.faq button {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 20px;
+}
+
+.faq h2 {
+  font-weight: 500;
+}
+
+.faq p {
+  padding: 20px;
+}
+
+.faq .accordion:hover {
+  background-color: #125875;
+  color: #fff;
+}
+
+/*--------------faq-------------*/
+.bulletin-board {
+  width: 70%;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.bulletin-board h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.pdf-list-container {
+  max-height: 300px;
+  /* Adjust the maximum height as needed */
+  overflow-y: auto;
+  /* Add vertical scrollbar */
+}
+
+.pdf-list-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pdf-list-container ul li {
+  margin-bottom: 10px;
+}
+
+.pdf-list-container ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.pdf-list-container ul li a:hover {
+  color: #125875;
+  /* Change color on hover */
+}
+
+.price-container {
+  display: flex;
+  gap: 0px;
+  margin: 0px;
+  flex-direction: column;
+}
+
+/*-- calender --*/
+.academic-calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.academic-calendar-table th,
+.academic-calendar-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.academic-calendar-table th {
+  background-color: #125875;
+  color: #fff;
+}
+
+.academic-calendar-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.academic-calendar-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.academic-calendar-table tbody tr td a {
+  color: #125875;
+  text-decoration: none;
+}
+
+.academic-calendar-table tbody tr td a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .bulletin-board {
+    width: 94%;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 450px;
+    overflow-y: auto;
+  }
+}

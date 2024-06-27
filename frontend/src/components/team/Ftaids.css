@@ -1,0 +1,34 @@
+.ftaids-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .video-section {
+    margin-top: 20px;
+  }
+  
+  .video-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .video-player {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  .video-wrapper h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .video-player iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  

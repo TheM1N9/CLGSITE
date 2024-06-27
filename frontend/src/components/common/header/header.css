@@ -1,0 +1,236 @@
+/*--------head------------*/
+.head {
+  padding: 20px 0;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  background: rgba(47, 45, 45, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  /* border: 1px solid rgba(255, 255, 255, 0.3); */
+}
+
+.logo h1 {
+  font-size: 35px;
+  font-weight: 900;
+}
+
+.logo span {
+  color: #125875;
+  font-size: 14px;
+}
+
+.head .icon {
+  margin-left: 10px;
+}
+
+.anits {
+  display: flex;
+  align-items: center;
+}
+
+.anits span {
+  color: #125875;
+}
+
+/*--------header------------*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .nav {
+  display: flex;
+}
+
+header ul {
+  display: flex;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+header ul li {
+  margin-right: 40px;
+}
+
+header ul li a {
+  color: #fff;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+header ul li a:hover {
+  color: #125875;
+}
+
+.toggle {
+  display: none;
+}
+
+
+
+/* Existing styles for head, container, flexSB, anits, logo, nav, ul, li, etc. */
+
+/* Dropdown menu styles */
+
+.active-link {
+  color: #125875 !important;
+}
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: rgba(47, 45, 45, 0.2);
+  list-style: none;
+  padding: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li {
+  margin: 0;
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+  color: #125875;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  /* Existing responsive styles */
+
+  .dropdown-menu {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .dropdown-menu li {
+    padding: 10px;
+  }
+}
+
+
+/* Mobile Navigation */
+@media screen and (max-width: 768px) {
+  header {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .toggle {
+    display: block;
+    background: none;
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    right: 0;
+    /* left: 150px; */
+    top: 20px;
+    cursor: pointer;
+    z-index: 20;
+  }
+  .logo h1 {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  header ul {
+    display: none;
+    flex-direction: column;
+    width: auto;
+    padding: 20px;
+    background-color: #125875;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+  }
+
+  header ul.mobile-nav {
+    display: flex;
+    width: 60vh;
+  }
+
+  header ul li {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  header ul li a {
+    color: #fff;
+  }
+  .start {
+    clip-path: none;
+  }
+  header {
+    margin: 0;
+    background-color: #125875;
+    position: relative;
+  }
+  header ul.flexSB {
+    display: none;
+  }
+  header ul li {
+    margin-bottom: 20px;
+  }
+  .toggle {
+    display: block;
+    background: none;
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    right: 0;
+    top: -20px;
+  }
+  .mobile-nav {
+    position: absolute;
+    top: 12vh;
+    width: 100%;
+    background-color: #125875;
+  }
+ 
+}
+
+/* Additional mobile adjustments */
+@media screen and (max-width: 480px) {
+  .logo h1 {
+    font-size: 28px;
+  }
+
+  .head {
+    padding: 15px 0;
+  }
+
+  .anits img {
+    width: 60px;
+  }
+
+  header ul {
+    top: 50px;
+  }
+}

@@ -1,0 +1,111 @@
+.hero {
+  /* background-image: url("https://anits.edu.in/naacA.jpeg"); */
+  /* background-size: cover;
+  background-attachment: fixed;
+  position: absolute; */
+  top: 0;
+  left: 0;
+  /* z-index: -1; */
+  width: 100%;
+  height: 100%;
+  /* padding-top: 10%; */
+  /* padding-right: 50px; */
+  color: #fff;
+}
+
+.hero #heading h1 {
+  color: #000000;
+  font-size: 40px;
+}
+
+.hero p {
+  text-align: justify;
+  display: none;
+}
+
+.hero #heading {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.heromargin {
+  height: 9vh;
+}
+
+.margin {
+  height: 16.8vh;
+}
+.carousel-container {
+  margin-top: 0px;
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 750px;
+  /* z-index: -1; */
+  /* Set a negative z-index to position the carousel below other content */
+  /* overflow: hidden; */
+}
+
+@media screen and (max-width: 768px) {
+  .heromargin {
+    height: 0vh;
+  }
+
+  .margin {
+    height: 61.9vh;
+  }
+
+  /* .hero {
+    background-image: url("https://anits.edu.in/naacA.jpeg");
+    
+    background-size: cover;
+    background-attachment: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+  } */
+
+  /* .hero {
+    background-position: right;
+    padding-top: 50%;
+    height: 80vh;
+  } */
+
+  .hero .row {
+    width: 100%;
+  }
+
+  .carousel-container {
+    margin-top: 13vh;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    /* z-index: -1; */
+    /* Set a negative z-index to position the carousel below other content */
+    /* overflow: hidden; */
+  }
+
+}
+
+/* .hero {
+  position: relative;
+} */
+
+
+.carousel-container img {
+  object-fit: fill;
+}
+
+.container {
+  position: relative;
+  /* Ensure the container remains in the normal flow */
+  z-index: 1;
+  /* Set a higher z-index to position the container above the carousel */
+}

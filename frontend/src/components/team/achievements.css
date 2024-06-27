@@ -1,0 +1,52 @@
+.academic-summary-table-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .academic-summary-table th,
+  .academic-summary-table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .academic-summary-table th {
+    background-color: #125875;
+    color: #fff;
+  }
+  
+  .academic-summary-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .academic-summary-table tbody tr:hover {
+    background-color: #ddd;
+  }
+  
+  .academic-summary-table tbody tr td a {
+    color: #1eb2a6;
+    text-decoration: none;
+  }
+  
+  .academic-summary-table tbody tr td a:hover {
+    text-decoration: underline;
+  }
+  .academic-summary-table{
+    width: 50%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .academic-summary-table {
+    width: 100%;
+  }
+
+  .academic-summary-table th,
+  .academic-summary-table td {
+    padding: 8px 10px; /* Reduce padding for better fit on small screens */
+  }
+
+  .academic-summary-table-container {
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  }
+  }
