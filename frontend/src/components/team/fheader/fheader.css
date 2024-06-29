@@ -40,7 +40,7 @@
 /*--------header------------*/
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -51,7 +51,7 @@ header .nav {
 header ul {
   display: flex;
   align-items: center;
-  padding: 30px 20px;
+  padding: 10px 20px;
 }
 
 header ul li {
