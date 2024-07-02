@@ -1,8 +1,7 @@
 /* banner */
-
-.banner img{
+.banner img {
   width: 100%;
-  height: 100px;
+  height: 150px;
 }
 
 /*--------head------------*/
@@ -51,15 +50,13 @@ header {
   align-items: center;
   padding: 2px 0;
   color: #fff;
-  /* position: fixed; */
-  /* top: 0; */
   width: 100%;
-  /* z-index: 10; */
   background: rgba(47, 45, 45, 0.2);
-  /* border-radius: 16px; */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  z-index: 20; /* Increased z-index */
+  position: relative;
 }
 
 header .nav {
@@ -92,14 +89,12 @@ header ul li a:hover {
   display: none;
 }
 
-
-
 /* Existing styles for head, container, flexSB, anits, logo, nav, ul, li, etc. */
 
 /* Dropdown menu styles */
-
 .active-link {
   color: #125875 !important;
+  z-index: 1000;
 }
 .dropdown {
   position: relative;
@@ -115,7 +110,7 @@ header ul li a:hover {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   border-radius: 8px;
-  z-index: 1;
+  z-index: 100; /* Adjusted z-index */
   top: 100%;
   left: 0;
 }
@@ -127,6 +122,7 @@ header ul li a:hover {
 .dropdown-menu li {
   margin: 0;
   padding: 10px 20px;
+  z-index: 1000;
 }
 
 .dropdown-menu li a {
@@ -138,10 +134,86 @@ header ul li a:hover {
   color: #125875;
 }
 
+/* Additional CSS for fixed header */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Make sure it's above other elements */
+}
+
+/* Banner styles */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 170px;
+}
+
+.banner img {
+  width: 100%;
+  height: 170px;
+  /* object-fit: cover; */
+}
+
+.banner-heading {
+  position: absolute;
+  top: 15%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
+}
+.banner-heading2 {
+  position: absolute;
+  top: 50%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
+}
+
+.banner-heading3 {
+  position: absolute;
+  top: 84%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 27px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
+}
+
+/* Header styles */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Make sure it's above other elements */
+}
+
+.flexSB {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+/* ...other styles remain the same... */
+
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   /* Existing responsive styles */
-
   .dropdown-menu {
     position: relative;
     top: 0;
@@ -153,7 +225,6 @@ header ul li a:hover {
     padding: 10px;
   }
 }
-
 
 /* Mobile Navigation */
 @media screen and (max-width: 768px) {
@@ -170,7 +241,6 @@ header ul li a:hover {
     font-size: 30px;
     position: absolute;
     right: 0;
-    /* left: 150px; */
     top: 20px;
     cursor: pointer;
     z-index: 20;
@@ -233,7 +303,6 @@ header ul li a:hover {
     width: 100%;
     background-color: #125875;
   }
- 
 }
 
 /* Additional mobile adjustments */

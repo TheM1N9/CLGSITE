@@ -102,8 +102,8 @@ p {
 }
 
 .back {
-  /* background-image: url("../public/images/back.webp"); */
-  background-size: cover;
+  background-image: url("./academic.png");
+  /* background-size: cover; */
   background-attachment: fixed;
   position: absolute;
   top: 0;
