@@ -64,7 +64,7 @@ const HAbout = () => {
                 <SwiperSlide>
                   <div className="card">
                     <div className="card-img">
-                      <img src={val.img} alt="" />
+                      <img src={`data:image/jpeg;base64,${val.img}`} alt="" />
                     </div>
                     <div className="card-text">
                       <h3>{val.title}</h3>

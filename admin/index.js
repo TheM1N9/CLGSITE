@@ -80,18 +80,20 @@ const CarouselSchema = new mongoose.Schema({
 })
 const CarouselModel = mongoose.model('carouselimages', CarouselSchema)
 
-const SyllabuslSchema = new mongoose.Schema({
+const syllabusSchema = new mongoose.Schema({
   id: String,
   coursesName: String,
-  courTeacher: [{
-    y1: Array,
-    y2: Array,
-    y3: Array,
-    y4: Array,
-  }],
+  courTeacher: [
+    {
+      y1: [{ name: String, url: String }],
+      y2: [{ name: String, url: String }],
+      y3: [{ name: String, url: String }],
+      y4: [{ name: String, url: String }],
+    },
+  ],
+});
 
-})
-const SyllabusModel = mongoose.model('syllabus', SyllabuslSchema)
+const SyllabusModel = mongoose.model('syllabus', syllabusSchema)
 
 const PartpdfSchema = new mongoose.Schema({
   name: String,
@@ -112,6 +114,8 @@ const PartcolSchema = new mongoose.Schema({
   c7: String,
   c8: String,
   c9: String,
+  c10: String,
+
   c11: String,
   c12: String,
   c13: String,
@@ -134,6 +138,23 @@ const PubdataSchema = new mongoose.Schema({
   c1: String,
   c2: Number,
   c3: Number,
+  c4: String,
+  c5: String,
+  c6: String,
+  c7: String,
+  c8: String,
+  c9: String,
+  c10: String,
+
+  c11: String,
+  c12: String,
+  c13: String,
+  c14: String,
+  c15: String,
+  c16: String,
+  c17: String,
+  c18: String,
+  c19: String,
 })
 const PubdataModel = mongoose.model('publicationdata', PubdataSchema)
 
@@ -147,6 +168,16 @@ const PubcolSchema = new mongoose.Schema({
   c7: String,
   c8: String,
   c9: String,
+  c10: String,
+  c11: String,
+  c12: String,
+  c13: String,
+  c14: String,
+  c15: String,
+  c16: String,
+  c17: String,
+  c18: String,
+  c19: String,
 })
 const PubcolModel = mongoose.model('publicationcol', PubcolSchema)
 
@@ -166,6 +197,16 @@ const acchdataSchema = new mongoose.Schema({
   c7: Number,
   c8: Number,
   c9: Number,
+  c10: String,
+  c11: String,
+  c12: String,
+  c13: String,
+  c14: String,
+  c15: String,
+  c16: String,
+  c17: String,
+  c18: String,
+  c19: String,
 })
 const acchdataModel = mongoose.model('achievementsdata', acchdataSchema)
 
@@ -469,8 +510,51 @@ app.get('/placements', async (req, res) => {
 
 
 
-app.post('/addevent', async (req, res) => {
+
+
+const fs = require('fs');
+const multer = require('multer');
+const path = require('path');
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//     cb(null, uniqueSuffix + path.extname(file.originalname));
+//   }
+// });
+
+// const upload = multer({ storage: storage });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/addevent', upload.single('img'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["img"] = base64Image;
+  // res.send(base64Image)
   const event = new EventModel(req.body);
+  // res.send(req.body)
   try {
     await event.save();
     res.json(event);
@@ -486,8 +570,14 @@ app.delete('/delevent/:id', async (req, res) => {
   res.json({ message: 'Event deleted' });
 });
 
-app.put('/editevent/:id', async (req, res) => {
+app.put('/editevent/:id', upload.single('img'), async (req, res) => {
   const { id } = req.params;
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["img"] = base64Image;
   try {
     const event = await EventModel.findByIdAndUpdate(id, req.body, { new: true });
     res.json(event);
@@ -496,7 +586,13 @@ app.put('/editevent/:id', async (req, res) => {
   }
 });
 
-app.post('/addresult', async (req, res) => {
+app.post('/addresult', upload.single('url'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   const result = new ResultModel(req.body);
   try {
     await result.save();
@@ -518,8 +614,14 @@ app.delete('/deleteresult/:id', async (req, res) => {
   }
 });
 
-app.put('/editresult/:id', async (req, res) => {
+app.put('/editresult/:id', upload.single('url'), async (req, res) => {
   const { id } = req.params;
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   try {
     const result = await ResultModel.findByIdAndUpdate(id, req.body, { new: true });
     res.json(result);
@@ -529,7 +631,13 @@ app.put('/editresult/:id', async (req, res) => {
   }
 });
 
-app.post('/addtimetable', async (req, res) => {
+app.post('/addtimetable', upload.single('url'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   const result = new TimetableModel(req.body);
   try {
     await result.save();
@@ -551,7 +659,13 @@ app.delete('/deletetimetable/:id', async (req, res) => {
   }
 });
 
-app.put('/edittimetable/:id', async (req, res) => {
+app.put('/edittimetable/:id', upload.single('url'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   const { id } = req.params;
   try {
     const result = await TimetableModel.findByIdAndUpdate(id, req.body, { new: true });
@@ -562,7 +676,13 @@ app.put('/edittimetable/:id', async (req, res) => {
   }
 });
 
-app.post('/addteach', async (req, res) => {
+app.post('/addteach', upload.single('cover'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["cover"] = base64Image;
   const result = new TeachModel(req.body);
   try {
     await result.save();
@@ -582,8 +702,14 @@ app.delete('/deleteteach/:id', async (req, res) => {
   }
 });
 
-app.put('/editteach/:id', async (req, res) => {
+app.put('/editteach/:id', upload.single('cover'), async (req, res) => {
   const { id } = req.params;
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["cover"] = base64Image;
   try {
     const result = await TeachModel.findByIdAndUpdate(id, req.body, { new: true });
     res.json(result);
@@ -592,7 +718,13 @@ app.put('/editteach/:id', async (req, res) => {
   }
 });
 
-app.post('/addtech', async (req, res) => {
+app.post('/addtech', upload.single('cover'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["cover"] = base64Image;
   const result = new TechModel(req.body);
   try {
     await result.save();
@@ -612,8 +744,14 @@ app.delete('/deletetech/:id', async (req, res) => {
   }
 });
 
-app.put('/edittech/:id', async (req, res) => {
+app.put('/edittech/:id', upload.single('cover'), async (req, res) => {
   const { id } = req.params;
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["cover"] = base64Image;
   try {
     const result = await TechModel.findByIdAndUpdate(id, req.body, { new: true });
     res.json(result);
@@ -622,15 +760,47 @@ app.put('/edittech/:id', async (req, res) => {
   }
 });
 
-app.post('/addsyllabus', async (req, res) => {
-  const newSyllabus = new SyllabusModel(req.body);
+
+app.post('/addsyllabus', upload.any(), async (req, res) => {
   try {
+    const { id, coursesName } = req.body;
+    const courTeacher = {
+      y1: [],
+      y2: [],
+      y3: [],
+      y4: [],
+    };
+
+    console.log("Received files:", req.files);
+    console.log("Received body:", req.body);
+
+    if (req.files) {
+      req.files.forEach((file) => {
+        const year = file.fieldname;
+        const name = req.body[`${year}Name`];
+        if (file.buffer) {
+          const base64Data = file.buffer.toString('base64');
+          courTeacher[year].push({ name, url: base64Data });
+        } else {
+          console.error(`File buffer is undefined for year ${year} and name ${name}`);
+        }
+      });
+    }
+
+    const newSyllabus = new SyllabusModel({ id, coursesName, courTeacher: [courTeacher] });
     await newSyllabus.save();
-    res.json(newSyllabus);
+    res.status(201).json(newSyllabus);
   } catch (error) {
-    res.status(400).json({ message: 'Please fill in all fields correctly.', error });
+    console.error("Error details:", error);
+    res.status(400).json({ message: error.message });
   }
 });
+
+
+
+
+
+
 
 app.delete('/deletesyllabus/:id', async (req, res) => {
   const { id } = req.params;
@@ -642,17 +812,60 @@ app.delete('/deletesyllabus/:id', async (req, res) => {
   }
 });
 
-app.put('/editsyllabus/:id', async (req, res) => {
-  const { id } = req.params;
+app.put('/editsyllabus/:id', upload.any(), async (req, res) => {
   try {
-    const result = await SyllabusModel.findByIdAndUpdate(id, req.body, { new: true });
-    res.json(result);
+    const { id, coursesName } = req.body;
+    const existingSyllabus = await SyllabusModel.findById(req.params.id);
+
+    if (!existingSyllabus) {
+      return res.status(404).json({ message: 'Syllabus not found' });
+    }
+
+    const updatedCourTeacher = {
+      y1: existingSyllabus.courTeacher[0].y1,
+      y2: existingSyllabus.courTeacher[0].y2,
+      y3: existingSyllabus.courTeacher[0].y3,
+      y4: existingSyllabus.courTeacher[0].y4,
+    };
+
+    if (req.files) {
+      req.files.forEach((file) => {
+        const year = file.fieldname;
+        const name = req.body[`${year}Name`];
+        if (file.buffer) {
+          const base64Data = file.buffer.toString('base64');
+          updatedCourTeacher[year] = [{ name, url: base64Data }];
+        } else {
+          console.error(`File buffer is undefined for year ${year} and name ${name}`);
+        }
+      });
+    }
+
+    const updatedSyllabus = await SyllabusModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        id,
+        coursesName,
+        courTeacher: [updatedCourTeacher],
+      },
+      { new: true }
+    );
+
+    res.json(updatedSyllabus);
   } catch (error) {
-    res.status(400).json({ message: 'Error updating syllabus.' });
+    console.error("Error details:", error);
+    res.status(400).json({ message: error.message });
   }
 });
 
-app.post("/addcalendar", async (req, res) => {
+
+app.post("/addcalendar", upload.single('url'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   const newCalendar = new CallenderModel(req.body);
   try {
     await newCalendar.save();
@@ -662,7 +875,13 @@ app.post("/addcalendar", async (req, res) => {
   }
 });
 
-app.put("/editcalendar/:id", async (req, res) => {
+app.put("/editcalendar/:id", upload.single('url'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["url"] = base64Image;
   const { id } = req.params;
   try {
     const updatedCalendar = await CallenderModel.findByIdAndUpdate(id, req.body, { new: true });
@@ -673,6 +892,7 @@ app.put("/editcalendar/:id", async (req, res) => {
 });
 
 app.delete("/deletecalendar/:id", async (req, res) => {
+
   const { id } = req.params;
   try {
     await CallenderModel.findByIdAndDelete(id);
@@ -682,7 +902,13 @@ app.delete("/deletecalendar/:id", async (req, res) => {
   }
 });
 
-app.post("/addcarousel", async (req, res) => {
+app.post("/addcarousel", upload.single('src'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["src"] = base64Image;
   const newCarousel = new CarouselModel(req.body);
   try {
     await newCarousel.save();
@@ -692,7 +918,13 @@ app.post("/addcarousel", async (req, res) => {
   }
 });
 
-app.put("/editcarousel/:id", async (req, res) => {
+app.put("/editcarousel/:id", upload.single('cover'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["cover"] = base64Image;
   const { id } = req.params;
   try {
     const updatedCarousel = await CarouselModel.findByIdAndUpdate(id, req.body, { new: true });
@@ -742,7 +974,13 @@ app.delete("/deletetabledata/:id", async (req, res) => {
   }
 });
 
-app.post("/addpdf", async (req, res) => {
+app.post("/addpdf", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const newPdf = new PubpdfModel(req.body);
   try {
     await newPdf.save();
@@ -752,7 +990,13 @@ app.post("/addpdf", async (req, res) => {
   }
 });
 
-app.put("/editpdf/:id", async (req, res) => {
+app.put("/editpdf/:id", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const { id } = req.params;
   try {
     const updatedPdf = await PubpdfModel.findByIdAndUpdate(id, req.body, { new: true });
@@ -812,7 +1056,13 @@ app.delete("/acchdeletetabledata/:id", async (req, res) => {
   }
 });
 
-app.post("/acchaddpdf", async (req, res) => {
+app.post("/acchaddpdf", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const newPdf = new acchpdfModel(req.body);
   try {
     await newPdf.save();
@@ -822,7 +1072,13 @@ app.post("/acchaddpdf", async (req, res) => {
   }
 });
 
-app.put("/accheditpdf/:id", async (req, res) => {
+app.put("/accheditpdf/:id", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const { id } = req.params;
   try {
     const updatedPdf = await acchpdfModel.findByIdAndUpdate(id, req.body, { new: true });
@@ -882,8 +1138,15 @@ app.delete("/partdeletetabledata/:id", async (req, res) => {
   }
 });
 
-app.post("/partaddpdf", async (req, res) => {
+app.post("/partaddpdf", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const newPdf = new PartpdfModel(req.body);
+
   try {
     await newPdf.save();
     res.json(newPdf);
@@ -892,7 +1155,13 @@ app.post("/partaddpdf", async (req, res) => {
   }
 });
 
-app.put("/parteditpdf/:id", async (req, res) => {
+app.put("/parteditpdf/:id", upload.single('link'), async (req, res) => {
+  const profilePicPath = req.file.path;
+  const fileBuffer = fs.readFileSync(profilePicPath);
+  const base64Image = fileBuffer.toString('base64');
+  fs.writeFileSync(profilePicPath, fileBuffer)
+  obj = req.body
+  obj["link"] = base64Image;
   const { id } = req.params;
   try {
     const updatedPdf = await PartpdfModel.findByIdAndUpdate(id, req.body, { new: true });

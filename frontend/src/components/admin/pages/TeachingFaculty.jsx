@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./teachingfaculty.css";
 
 const TeachingFaculty = () => {
   const [faculty, setFaculty] = useState([]);
   const [newFaculty, setNewFaculty] = useState({
-    cover: "",
+    cover: null,
     name: "",
     work: "",
     url: "",
   });
   const [editMode, setEditMode] = useState(false);
   const [currentFacultyId, setCurrentFacultyId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchFaculty = async () => {
     try {
@@ -27,27 +28,49 @@ const TeachingFaculty = () => {
   }, []);
 
   const handleChange = (e) => {
-    setNewFaculty({ ...newFaculty, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "cover") {
+      setNewFaculty({ ...newFaculty, cover: files[0] });
+    } else {
+      setNewFaculty({ ...newFaculty, [name]: value });
+    }
   };
 
   const addOrUpdateFaculty = async () => {
     try {
+      const formData = new FormData();
+      for (const key in newFaculty) {
+        formData.append(key, newFaculty[key]);
+      }
+
       if (editMode) {
         await axios.put(
           `http://localhost:3001/editteach/${currentFacultyId}`,
-          newFaculty
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:3001/addteach", newFaculty);
+        await axios.post("http://localhost:3001/addteach", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
       setNewFaculty({
-        cover: "",
+        cover: null,
         name: "",
         work: "",
         url: "",
       });
       setEditMode(false);
       fetchFaculty();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("There was an error!", error.response?.data);
       alert("There was an error: " + error.response?.data?.message);
@@ -64,9 +87,17 @@ const TeachingFaculty = () => {
   };
 
   const editFaculty = (faculty) => {
-    setNewFaculty(faculty);
+    setNewFaculty({
+      cover: null,
+      name: faculty.name,
+      work: faculty.work,
+      url: faculty.url,
+    });
     setCurrentFacultyId(faculty._id);
     setEditMode(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -74,11 +105,11 @@ const TeachingFaculty = () => {
       <div className="form-container">
         <h1>Teaching Faculty Manager</h1>
         <input
-          type="text"
+          type="file"
           name="cover"
-          placeholder="Cover Image URL"
-          value={newFaculty.cover}
+          placeholder="Cover Image"
           onChange={handleChange}
+          ref={fileInputRef}
         />
         <input
           type="text"
@@ -108,7 +139,7 @@ const TeachingFaculty = () => {
       <ul className="faculty-list">
         {faculty.map((member) => (
           <li key={member._id} className="faculty-item">
-            <img src={member.cover} alt={member.name} />
+            <img src={`data:image/jpeg;base64,${member.cover}`} alt={member.name} />
             <div className="faculty-details">
               <h3>{member.name}</h3>
               <p>{member.work}</p>

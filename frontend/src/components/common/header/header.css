@@ -55,7 +55,8 @@ header {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  z-index: 20; /* Increased z-index */
+  z-index: 20;
+  /* Increased z-index */
   position: relative;
 }
 
@@ -96,6 +97,7 @@ header ul li a:hover {
   color: #125875 !important;
   z-index: 1000;
 }
+
 .dropdown {
   position: relative;
 }
@@ -110,7 +112,8 @@ header ul li a:hover {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   border-radius: 8px;
-  z-index: 100; /* Adjusted z-index */
+  z-index: 100;
+  /* Adjusted z-index */
   top: 100%;
   left: 0;
 }
@@ -139,7 +142,8 @@ header ul li a:hover {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Make sure it's above other elements */
+  z-index: 1000;
+  /* Make sure it's above other elements */
 }
 
 /* Banner styles */
@@ -158,7 +162,7 @@ header ul li a:hover {
 .banner-heading {
   position: absolute;
   top: 15%;
-  left: 42%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: white;
   font-size: 2em;
@@ -166,10 +170,11 @@ header ul li a:hover {
   text-align: center;
   z-index: 10;
 }
+
 .banner-heading2 {
   position: absolute;
   top: 50%;
-  left: 42%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: white;
   font-size: 20px;
@@ -181,10 +186,10 @@ header ul li a:hover {
 .banner-heading3 {
   position: absolute;
   top: 84%;
-  left: 42%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 27px;
+  font-size: 25px;
   font-weight: bold;
   text-align: center;
   z-index: 10;
@@ -195,7 +200,8 @@ header ul li a:hover {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Make sure it's above other elements */
+  z-index: 1000;
+  /* Make sure it's above other elements */
 }
 
 .flexSB {
@@ -213,6 +219,7 @@ header ul li a:hover {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+
   /* Existing responsive styles */
   .dropdown-menu {
     position: relative;
@@ -228,10 +235,53 @@ header ul li a:hover {
 
 /* Mobile Navigation */
 @media screen and (max-width: 768px) {
-  header {
+
+  .banner img {
+    width: 100%;
+    height: 120px;
+    /* object-fit: cover; */
+  }
+
+  .banner {
     position: relative;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 100%;
+    height: 114px;
+  }
+
+  .banner-heading2 {
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 6.3px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 10;
+  }
+
+  .banner-heading {
+    position: absolute;
+    top: 21%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 10;
+  }
+
+  .banner-heading3 {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 10;
   }
 
   .toggle {
@@ -245,6 +295,7 @@ header ul li a:hover {
     cursor: pointer;
     z-index: 20;
   }
+
   .logo h1 {
     font-size: 20px;
     font-weight: 900;
@@ -274,20 +325,19 @@ header ul li a:hover {
   header ul li a {
     color: #fff;
   }
+
   .start {
     clip-path: none;
   }
-  header {
-    margin: 0;
-    background-color: #125875;
-    position: relative;
-  }
+
   header ul.flexSB {
     display: none;
   }
+
   header ul li {
     margin-bottom: 20px;
   }
+
   .toggle {
     display: block;
     background: none;
@@ -297,6 +347,7 @@ header ul li a:hover {
     right: 0;
     top: -20px;
   }
+
   .mobile-nav {
     position: absolute;
     top: 12vh;

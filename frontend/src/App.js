@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/common/header/Header";
 import CourseHome from "./components/allcourses/CourseHome";
 import Pricing from "./components/pricing/Pricing";

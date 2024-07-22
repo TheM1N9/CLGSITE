@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./calendarManager.css";
 
@@ -10,15 +10,17 @@ const CalendarManager = () => {
     course: "",
     attachment: "",
     startDate: "",
-    url: ""
+    url: null,
   });
   const [editMode, setEditMode] = useState(false);
   const [currentCalendarId, setCurrentCalendarId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchCalendar = async () => {
     try {
       const response = await axios.get("http://localhost:3001/callender");
       setCalendar(response.data);
+      console.log("Fetched calendar:", response.data);
     } catch (error) {
       console.error("Error fetching calendar", error);
     }
@@ -29,19 +31,42 @@ const CalendarManager = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewCalendar({ ...newCalendar, [name]: value });
+    const { name, value, files } = e.target;
+    if (name === "url") {
+      setNewCalendar({ ...newCalendar, url: files[0] });
+    } else {
+      setNewCalendar({ ...newCalendar, [name]: value });
+    }
   };
 
   const addOrUpdateCalendar = async () => {
     try {
+      const formData = new FormData();
+      formData.append("sno", newCalendar.sno);
+      formData.append("academicYear", newCalendar.academicYear);
+      formData.append("course", newCalendar.course);
+      formData.append("attachment", newCalendar.attachment);
+      formData.append("startDate", newCalendar.startDate);
+      if (newCalendar.url) {
+        formData.append("url", newCalendar.url);
+      }
+
       if (editMode) {
         await axios.put(
           `http://localhost:3001/editcalendar/${currentCalendarId}`,
-          newCalendar
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:3001/addcalendar", newCalendar);
+        await axios.post("http://localhost:3001/addcalendar", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
       setNewCalendar({
         sno: "",
@@ -49,10 +74,13 @@ const CalendarManager = () => {
         course: "",
         attachment: "",
         startDate: "",
-        url: ""
+        url: null,
       });
       setEditMode(false);
       fetchCalendar();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("There was an error!", error.response?.data);
       alert("There was an error: " + error.response?.data?.message);
@@ -75,10 +103,13 @@ const CalendarManager = () => {
       course: calendarItem.course,
       attachment: calendarItem.attachment,
       startDate: calendarItem.startDate,
-      url: calendarItem.url
+      url: null,
     });
     setCurrentCalendarId(calendarItem._id);
     setEditMode(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -121,11 +152,11 @@ const CalendarManager = () => {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="file"
           name="url"
           placeholder="URL"
-          value={newCalendar.url}
           onChange={handleChange}
+          ref={fileInputRef}
         />
         <button onClick={addOrUpdateCalendar}>
           {editMode ? "Update Calendar" : "Add Calendar"}
@@ -153,7 +184,11 @@ const CalendarManager = () => {
                 <td>{item.attachment}</td>
                 <td>{item.startDate}</td>
                 <td>
-                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={`data:application/pdf;base64,${item.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     View Details
                   </a>
                 </td>

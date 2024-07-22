@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./publicationManager.css";
 
@@ -8,10 +8,11 @@ const AchievementsManager = () => {
   const [pdfs, setPdfs] = useState([]);
   const [newColumn, setNewColumn] = useState("");
   const [newRow, setNewRow] = useState({});
-  const [newPdf, setNewPdf] = useState({ name: "", link: "" });
+  const [newPdf, setNewPdf] = useState({ name: "", link: null });
   const [editMode, setEditMode] = useState(false);
   const [currentRowId, setCurrentRowId] = useState(null);
   const [currentPdfId, setCurrentPdfId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchColumns = async () => {
     try {
@@ -52,8 +53,12 @@ const AchievementsManager = () => {
   };
 
   const handlePdfChange = (e) => {
-    const { name, value } = e.target;
-    setNewPdf({ ...newPdf, [name]: value });
+    const { name, files } = e.target;
+    if (name === "link") {
+      setNewPdf({ ...newPdf, link: files[0] });
+    } else {
+      setNewPdf({ ...newPdf, [name]: e.target.value });
+    }
   };
 
   const addOrUpdateRow = async () => {
@@ -74,14 +79,31 @@ const AchievementsManager = () => {
 
   const addOrUpdatePdf = async () => {
     try {
-      if (editMode) {
-        await axios.put(`http://localhost:3001/accheditpdf/${currentPdfId}`, newPdf);
-      } else {
-        await axios.post("http://localhost:3001/acchaddpdf", newPdf);
+      const formData = new FormData();
+      formData.append("name", newPdf.name);
+      if (newPdf.link) {
+        formData.append("link", newPdf.link);
       }
-      setNewPdf({ name: "", link: "" });
+
+      if (editMode) {
+        await axios.put(`http://localhost:3001/accheditpdf/${currentPdfId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        await axios.post("http://localhost:3001/acchaddpdf", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+      setNewPdf({ name: "", link: null });
       setEditMode(false);
       fetchPdfs();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("There was an error!", error.response?.data);
       alert("There was an error: " + error.response?.data?.message);
@@ -132,7 +154,7 @@ const AchievementsManager = () => {
   return (
     <div className="App">
       <div className="column-form-container">
-        <h1>Manage Columns</h1>
+        <h1>Achievements Columns</h1>
         <input
           type="text"
           name="newColumn"
@@ -143,7 +165,7 @@ const AchievementsManager = () => {
         <button onClick={addColumn}>Add Column</button>
       </div>
       <div className="form-container">
-        <h1>Manage Table Data</h1>
+        <h1>Achievements Table Data</h1>
         {Object.keys(columns).map((col, index) => (
           col !== '_id' && (
             <input
@@ -186,7 +208,7 @@ const AchievementsManager = () => {
         </table>
       </div>
       <div className="pdf-form-container">
-        <h1>Manage PDFs</h1>
+        <h1>Achievements PDFs</h1>
         <input
           type="text"
           name="name"
@@ -195,11 +217,11 @@ const AchievementsManager = () => {
           onChange={handlePdfChange}
         />
         <input
-          type="text"
+          type="file"
           name="link"
-          placeholder="PDF Link"
-          value={newPdf.link}
+          placeholder="PDF File"
           onChange={handlePdfChange}
+          ref={fileInputRef}
         />
         <button onClick={addOrUpdatePdf}>
           {editMode ? "Update PDF" : "Add PDF"}
@@ -219,7 +241,11 @@ const AchievementsManager = () => {
               <tr key={pdf._id}>
                 <td>{pdf.name}</td>
                 <td>
-                  <a href={pdf.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={`data:application/pdf;base64,${pdf.link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     View PDF
                   </a>
                 </td>

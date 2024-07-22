@@ -1,21 +1,22 @@
 // src/Timetable.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-// import "./timetable.css";
 
 const Timetable = () => {
   const [timetables, setTimetables] = useState([]);
   const [newTimetable, setNewTimetable] = useState({
     name: "",
-    url: "",
+    url: null,
   });
   const [editMode, setEditMode] = useState(false);
   const [currentTimetableId, setCurrentTimetableId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchTimetables = async () => {
     try {
       const response = await axios.get("http://localhost:3001/timetables");
       setTimetables(response.data);
+      console.log("Fetched timetables:", response.data);
     } catch (error) {
       console.error("Error fetching timetables", error);
     }
@@ -26,28 +27,51 @@ const Timetable = () => {
   }, []);
 
   const handleChange = (e) => {
-    setNewTimetable({ ...newTimetable, [e.target.name]: e.target.value });
+    const { name, files } = e.target;
+    if (name === "url") {
+      setNewTimetable({ ...newTimetable, url: files[0] });
+    } else {
+      setNewTimetable({ ...newTimetable, [name]: e.target.value });
+    }
   };
 
   const addOrUpdateTimetable = async () => {
     try {
+      const formData = new FormData();
+      formData.append("name", newTimetable.name);
+      if (newTimetable.url) {
+        formData.append("url", newTimetable.url);
+      }
+
       if (editMode) {
         await axios.put(
           `http://localhost:3001/edittimetable/${currentTimetableId}`,
-          newTimetable
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:3001/addtimetable", newTimetable);
+        await axios.post("http://localhost:3001/addtimetable", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
       setNewTimetable({
         name: "",
-        url: "",
+        url: null,
       });
       setEditMode(false);
       fetchTimetables();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
-      console.error("There was an error!", error.response.data);
-      alert("There was an error: " + error.response.data.message);
+      console.error("There was an error!", error.response?.data);
+      alert("There was an error: " + error.response?.data?.message);
     }
   };
 
@@ -61,9 +85,15 @@ const Timetable = () => {
   };
 
   const editTimetable = (timetable) => {
-    setNewTimetable(timetable);
+    setNewTimetable({
+      name: timetable.name,
+      url: null,
+    });
     setCurrentTimetableId(timetable._id);
     setEditMode(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -78,11 +108,11 @@ const Timetable = () => {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="file"
           name="url"
-          placeholder="URL"
-          value={newTimetable.url}
+          placeholder="PDF File"
           onChange={handleChange}
+          ref={fileInputRef}
         />
         <button onClick={addOrUpdateTimetable}>
           {editMode ? "Update Timetable" : "Add Timetable"}
@@ -91,11 +121,15 @@ const Timetable = () => {
       <ul className="timetable-list">
         {timetables.map((timetable) => (
           <li key={timetable._id} className="timetable-item">
-            <div className="adminedit-details">
+            <div className="timetable-details">
               <h3>{timetable.name}</h3>
-              {/* <a href={timetable.url} target="_blank" rel="noopener noreferrer">
-                {timetable.url}
-              </a> */}
+              <a
+                href={`data:application/pdf;base64,${timetable.url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View PDF
+              </a>
               <div className="timetable-buttons">
                 <button onClick={() => editTimetable(timetable)}>Edit</button>
                 <button onClick={() => removeTimetable(timetable._id)}>Remove</button>

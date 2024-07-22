@@ -23,7 +23,7 @@ export default function Admin() {
               <Link to="teachingfaculty" onClick={() => setClick(false)}>Teaching Faculty</Link>
             </li>
             <li>
-              <Link to="techfaculty" onClick={() => setClick(false)}>Teachnical Faculty</Link>
+              <Link to="techfaculty" onClick={() => setClick(false)}>Technical Faculty</Link>
             </li>
             <li>
               <Link to="syllabus" onClick={() => setClick(false)}>Syllabus</Link>

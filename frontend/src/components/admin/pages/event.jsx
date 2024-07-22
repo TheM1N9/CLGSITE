@@ -1,12 +1,11 @@
-// src/App.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./event.css";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({
-    img: "",
+    img: null,
     title: "",
     description: "",
     time: "",
@@ -16,6 +15,7 @@ const Event = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [currentEventId, setCurrentEventId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchEvents = async () => {
     const response = await axios.get("http://localhost:3001/event");
@@ -27,21 +27,40 @@ const Event = () => {
   }, []);
 
   const handleChange = (e) => {
-    setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "img") {
+      setNewEvent({ ...newEvent, img: files[0] });
+    } else {
+      setNewEvent({ ...newEvent, [name]: value });
+    }
   };
 
   const addOrUpdateEvent = async () => {
     try {
+      const formData = new FormData();
+      for (const key in newEvent) {
+        formData.append(key, newEvent[key]);
+      }
+
       if (editMode) {
         await axios.put(
           `http://localhost:3001/editevent/${currentEventId}`,
-          newEvent
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:3001/addevent", newEvent);
+        await axios.post("http://localhost:3001/addevent", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
       setNewEvent({
-        img: "",
+        img: null,
         title: "",
         description: "",
         time: "",
@@ -51,6 +70,9 @@ const Event = () => {
       });
       setEditMode(false);
       fetchEvents();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("There was an error!", error.response.data);
       alert("There was an error: " + error.response.data.message);
@@ -63,9 +85,20 @@ const Event = () => {
   };
 
   const editEvent = (event) => {
-    setNewEvent(event);
+    setNewEvent({
+      img: null,
+      title: event.title,
+      description: event.description,
+      time: event.time,
+      day: event.day,
+      monthyear: event.monthyear,
+      url: event.url,
+    });
     setCurrentEventId(event._id);
     setEditMode(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -73,11 +106,11 @@ const Event = () => {
       <div className="form-container">
         <h1>Events Manager</h1>
         <input
-          type="text"
+          type="file"
           name="img"
           placeholder="Image URL"
-          value={newEvent.img}
           onChange={handleChange}
+          ref={fileInputRef}
         />
         <input
           type="text"
@@ -128,7 +161,7 @@ const Event = () => {
       <ul className="event-list">
         {events.map((event) => (
           <li key={event._id} className="event-item">
-            <img src={event.img} alt={event.title} />
+            <img src={`data:image/jpeg;base64,${event.img}`} alt={event.title} />
             <div className="event-details">
               <h3>{event.title}</h3>
               <p>{event.description}</p>

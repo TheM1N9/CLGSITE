@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 // import "./carouselManager.css";
 
 const CarouselManager = () => {
   const [carousel, setCarousel] = useState([]);
   const [newCarousel, setNewCarousel] = useState({
-    src: "",
+    src: null,
   });
   const [editMode, setEditMode] = useState(false);
   const [currentCarouselId, setCurrentCarouselId] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchCarousel = async () => {
     try {
@@ -24,23 +25,40 @@ const CarouselManager = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewCarousel({ ...newCarousel, [name]: value });
+    const { name, files } = e.target;
+    if (name === "src") {
+      setNewCarousel({ ...newCarousel, [name]: files[0] });
+    }
   };
 
   const addOrUpdateCarousel = async () => {
     try {
+      const formData = new FormData();
+      formData.append("src", newCarousel.src);
+
       if (editMode) {
         await axios.put(
           `http://localhost:3001/editcarousel/${currentCarouselId}`,
-          newCarousel
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:3001/addcarousel", newCarousel);
+        await axios.post("http://localhost:3001/addcarousel", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
-      setNewCarousel({ src: "" });
+      setNewCarousel({ src: null });
       setEditMode(false);
       fetchCarousel();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("There was an error!", error.response?.data);
       alert("There was an error: " + error.response?.data?.message);
@@ -58,10 +76,13 @@ const CarouselManager = () => {
 
   const editCarousel = (carouselItem) => {
     setNewCarousel({
-      src: carouselItem.src || "",
+      src: null,
     });
     setCurrentCarouselId(carouselItem._id);
     setEditMode(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -69,12 +90,13 @@ const CarouselManager = () => {
       <div className="form-container">
         <h1>Carousel Manager</h1>
         <input
-          type="text"
+          type="file"
           name="src"
           placeholder="Image Source"
-          value={newCarousel.src}
           onChange={handleChange}
+          ref={fileInputRef}
         />
+
         <button onClick={addOrUpdateCarousel}>
           {editMode ? "Update Carousel" : "Add Carousel"}
         </button>
@@ -91,11 +113,17 @@ const CarouselManager = () => {
             {carousel.map((item) => (
               <tr key={item._id}>
                 <td>
-                  <img src={item.src} alt="" style={{ width: "100px" }} />
+                  <img
+                    src={`data:image/jpeg;base64,${item.src}`}
+                    alt=""
+                    style={{ width: "100px" }}
+                  />
                 </td>
                 <td>
                   <button onClick={() => editCarousel(item)}>Edit</button>
-                  <button onClick={() => removeCarousel(item._id)}>Remove</button>
+                  <button onClick={() => removeCarousel(item._id)}>
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}

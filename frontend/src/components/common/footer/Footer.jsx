@@ -29,7 +29,7 @@ const Footer = () => {
         <center>
           <br />
           <img
-            src="https://anits.edu.in/icaesct2022/images/anits_logo_b.png"
+            src={process.env.PUBLIC_URL + '/images/anits_logo.png'}
             style={{ width: "170px", height: "auto" }}
             alt="rgaersg"
           />
